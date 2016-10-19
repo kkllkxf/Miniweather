@@ -2,6 +2,8 @@ package kangxiaofei.miniweather;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;    //第七步
+import android.os.Message;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
@@ -28,10 +30,23 @@ import cn.edu.pku.kangxiaofei.util.NetUtil;
  */
 public class MainActivity extends Activity implements View.OnClickListener
 {
+    private static final int UPDATE_TODAY_WEATHER = 1;
     private ImageView mUpdateBtn;       //在UI线程中,为更新按钮(ImageView)增加单击事件.
     private TextView cityTv,timeTv,humidityTv,weekTv,pmDataTv,pmQualityTv,
             temperatureTv,climateTv,windTv,city_name_Tv;
     private ImageView weatherImg,pmImg;
+
+    private Handler mHandler = new Handler( ) {
+        public void handleMessage( android. os. Message msg) {
+            switch ( msg. what) {
+                case UPDATE_TODAY_WEATHER:
+                    updateTodayWeather( ( TodayWeather) msg. obj ); //通过消息机制,将解析的天气对象， 通过消息发送给主线程，主线程接收到消息数据后 ，调用 updateTodayWeather函数，更新UI界面上的数据。
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate( Bundle savedInstanceState)
@@ -214,8 +229,8 @@ public class MainActivity extends Activity implements View.OnClickListener
         *使用**获取网络数据
         *@param cityCode
         */
-        private void queryWeatherCode( String cityCode)
-        {
+     private void queryWeatherCode( String cityCode)
+     {
             final String address = "http://wthrcdn.etouch.cn/WeatherApi?citykey="+cityCode;
             Log.d( "myWeather", address) ;
             new Thread( new Runnable( ) {
@@ -243,6 +258,11 @@ public class MainActivity extends Activity implements View.OnClickListener
                         todayWeather = parseXML(responseStr);        //获取网络数据后，调用解析函数
                         if(todayWeather != null){
                             Log.d("myWeather",todayWeather.toString());  //调用 parseXML，并返回TodayWeather对象。
+
+                            Message msg =new Message( );        //通过消息机制，将解析的天气对象，通过消息发送给主线程，主线程接收到消息数据后 ，调用updateTodayWeather函数,更新UI界面上的数据。
+                            msg.what = UPDATE_TODAY_WEATHER;
+                            msg.obj = todayWeather;
+                            mHandler.sendMessage( msg) ;
                         }
                     }catch ( Exception e) {
                         e. printStackTrace( ) ;
@@ -253,6 +273,22 @@ public class MainActivity extends Activity implements View.OnClickListener
                     }
                 }
             }) .start( );
+        }
+    /*
+    *编写 updateTodayWeather 函数,利 用 TodayWeather对象更新UI中 的控件
+     */
+    void updateTodayWeather( TodayWeather todayWeather) {
+        city_name_Tv. setText( todayWeather. getCity( ) +" 天气") ;
+        cityTv. setText( todayWeather. getCity( ) ) ;
+        timeTv. setText( todayWeather. getUpdatetime( ) + " 发布") ;
+        humidityTv. setText( " 湿度： "+todayWeather. getShidu( ) ) ;
+        pmDataTv. setText( todayWeather. getPm25( ) ) ;
+        pmQualityTv. setText( todayWeather. getQuality( ) ) ;
+        weekTv. setText( todayWeather. getDate( ) ) ;
+        temperatureTv. setText( todayWeather. getHigh( ) +"~"+todayWeather. getLow( ) ) ;
+        climateTv. setText( todayWeather. getType( ) ) ;
+        windTv. setText( " 风力 : "+todayWeather. getFengli( ) ) ;
+        Toast. makeText( MainActivity. this, " 更新成功！ ", Toast. LENGTH_SHORT) . show( ) ;
     }
 
 }
