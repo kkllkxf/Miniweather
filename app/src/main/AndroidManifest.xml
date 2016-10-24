@@ -18,6 +18,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SelectCity">
+        </activity>                            //在AndroidManifest.xml文件中 注册Activity—SelectCity
+
     </application>
 
 </manifest>
