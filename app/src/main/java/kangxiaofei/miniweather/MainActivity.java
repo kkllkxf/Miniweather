@@ -30,9 +30,9 @@ import cn.edu.pku.kangxiaofei.util.NetUtil;
  * Created by Administrator on 2016/10/11.
  */
 public class MainActivity extends Activity implements View.OnClickListener
-{
-    private static final int UPDATE_TODAY_WEATHER = 1;
-    private ImageView mUpdateBtn;       //在UI线程中,为更新按钮(ImageView)增加单击事件.
+        {
+            private static final int UPDATE_TODAY_WEATHER = 1;
+            private ImageView mUpdateBtn;       //在UI线程中,为更新按钮(ImageView)增加单击事件.
 
     private ImageView mCitySelect;      //为选择城市ImageView添加OnClick事件
 
@@ -115,14 +115,20 @@ public class MainActivity extends Activity implements View.OnClickListener
     protected void onActivityResult( int requestCode, int resultCode, Intent data) {
         if ( requestCode == 1 && resultCode == RESULT_OK) {
             String newCityCode= data. getStringExtra( "cityCode") ;
+
+            SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("main_city_code", newCityCode); //键值对newCityCode——>main_city_code（值）
+            editor.commit();            //点击返回后，使用SharedPreferences保存当前数据，参考 http://www.cnblogs.com/ywtk/p/3795184.html
+
             Log. d( "myWeather", " 选择的城市代码为 "+newCityCode) ;
             if ( NetUtil. getNetworkState( this) != NetUtil. NETWORN_NONE) {
                 Log. d( "myWeather", " 网络OK") ;
-                queryWeatherCode( newCityCode) ;
+                queryWeatherCode(newCityCode) ;   //此处可以进一步优化，选择在city_select页面选择后刷新还是在返回后刷新,都可以.
             } else {
-                Log. d( "myWeather", " 网络挂了 ") ;
-                Toast. makeText( MainActivity. this, " 网络挂了 ！ ", Toast. LENGTH_LONG) . show( ) ;
-            }
+            Log. d( "myWeather", " 网络挂了 ") ;
+            Toast. makeText( MainActivity. this, " 网络挂了 ！ ", Toast. LENGTH_LONG) . show( );
+        }
         }
     }
     /*
