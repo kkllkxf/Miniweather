@@ -117,7 +117,7 @@ public class MainActivity extends Activity implements View.OnClickListener
             String newCityCode= data. getStringExtra( "cityCode") ;
 
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+            SharedPreferences.Editor editor = sharedPreferences.edit(); //SharedPreference中写入数据需要使用Editor
             editor.putString("main_city_code", newCityCode); //键值对newCityCode——>main_city_code（值）
             editor.commit();            //点击返回后，使用SharedPreferences保存当前数据，参考 http://www.cnblogs.com/ywtk/p/3795184.html
 
