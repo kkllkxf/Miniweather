@@ -73,7 +73,7 @@ public class MainActivity extends Activity implements View.OnClickListener
         mCitySelect = (ImageView)findViewById(R.id.title_city_manager);
         mCitySelect.setOnClickListener(this);
 
-        initView();
+        initView();  //初始化控件
     }
 
     @Override
@@ -157,6 +157,7 @@ public class MainActivity extends Activity implements View.OnClickListener
         temperatureTv.setText("N/A") ;
         climateTv.setText("N/A") ;
         windTv.setText("N/A") ;
+
     }
     /*
     *编写解析函数， 解析出城市名称已经更新时间信息
