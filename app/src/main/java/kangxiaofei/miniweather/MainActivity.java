@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;    //第七步
 import android.os.Message;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
@@ -30,15 +34,16 @@ import cn.edu.pku.kangxiaofei.util.NetUtil;
  * Created by Administrator on 2016/10/11.
  */
 public class MainActivity extends Activity implements View.OnClickListener
-        {
-            private static final int UPDATE_TODAY_WEATHER = 1;
-            private ImageView mUpdateBtn;       //在UI线程中,为更新按钮(ImageView)增加单击事件.
+            {
+                private static final int UPDATE_TODAY_WEATHER = 1;
+                private ImageView mUpdateBtn;       //在UI线程中,为更新按钮(ImageView)增加单击事件.
 
-    private ImageView mCitySelect;      //为选择城市ImageView添加OnClick事件
+                private ImageView mCitySelect;      //为选择城市ImageView添加OnClick事件
 
-    private TextView cityTv,timeTv,humidityTv,weekTv,pmDataTv,pmQualityTv,
-            temperatureTv,climateTv,windTv,city_name_Tv;
-    private ImageView weatherImg,pmImg;
+                private TextView cityTv,timeTv,humidityTv,weekTv,pmDataTv,pmQualityTv,
+                        temperatureTv,climateTv,windTv,city_name_Tv;
+                private ProgressBar pbar;
+                private ImageView weatherImg,pmImg;
 
     private Handler mHandler = new Handler( ) {
         public void handleMessage( android. os. Message msg) {
@@ -56,26 +61,69 @@ public class MainActivity extends Activity implements View.OnClickListener
     protected void onCreate( Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState) ;
-        setContentView(R.layout.weather_info);
+            setContentView(R.layout.weather_info);
 
-        mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
-        mUpdateBtn.setOnClickListener( this);
-
-        if ( NetUtil. getNetworkState( this) != NetUtil.NETWORN_NONE) {
+            if ( NetUtil. getNetworkState( this) != NetUtil.NETWORN_NONE) {
             Log.d( "myWeather", "网络OK") ;
             Toast.makeText( MainActivity.this, "网络OK！", Toast.LENGTH_LONG).show( ) ;
         }
-        else
-        {
-            Log.d( "myWeather", " 网络挂了");
-            Toast.makeText( MainActivity.this, " 网络挂了！", Toast.LENGTH_LONG).show( ) ;
+            else
+            {
+                Log.d( "myWeather", " 网络挂了");
+                Toast.makeText( MainActivity.this, " 网络挂了！", Toast.LENGTH_LONG).show( ) ;
+            }
+            //点击更新按钮，实现动画效果
+            mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
+        	mUpdateBtn.setOnClickListener(this);
+        	//pbar = (ProgressBar) findViewById(R.id.title_update_progress);
+
+            mCitySelect = (ImageView)findViewById(R.id.title_city_manager);
+            mCitySelect.setOnClickListener(this);
+
+            initView();  //初始化控件
         }
-        mCitySelect = (ImageView)findViewById(R.id.title_city_manager);
-        mCitySelect.setOnClickListener(this);
-
-        initView();  //初始化控件
+    public void setType(String weatherType, ImageView weatherImg) {
+        if (weatherType.equals("暴雪"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_baoxue);
+        if (weatherType.equals("暴雨"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_baoyu);
+        if (weatherType.equals("大暴雨"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_dabaoyu);
+        if (weatherType.equals("大雪"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_daxue);
+        if (weatherType.equals("大雨"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_dayu);
+        if (weatherType.equals("多雨"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_duoyun);
+        if (weatherType.equals("雷阵雨"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_leizhenyu);
+        if (weatherType.equals("雷阵冰雹"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_leizhenyubingbao);
+        if (weatherType.equals("晴"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_qing);
+        if (weatherType.equals("沙尘暴"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_shachenbao);
+        if (weatherType.equals("特大暴雨"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_tedabaoyu);
+        if (weatherType.equals("雾"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_wu);
+        if (weatherType.equals("小雪"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_xiaoxue);
+        if (weatherType.equals("小雨"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_xiaoyu);
+        if (weatherType.equals("阴"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_yin);
+        if (weatherType.equals("阵雪"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_zhenxue);
+        if (weatherType.equals("阵雨"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_zhenyu);
+        if (weatherType.equals("雨夹雪"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_yujiaxue);
+        if (weatherType.equals("中雪"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_zhongyu);
+        if (weatherType.equals("中雨"))
+            weatherImg.setImageResource(R.drawable.biz_plugin_weather_zhongyu);
     }
-
     @Override
     public void onClick(View view)
     {
@@ -88,6 +136,11 @@ public class MainActivity extends Activity implements View.OnClickListener
         }
         if (view.getId() == R.id.title_update_btn)
         {
+            //pbar.setVisibility(View.VISIBLE);
+            //mUpdateBtn.setVisibility(View.INVISIBLE);
+
+            //点击更新按钮，实现动画效果
+            mUpdateBtn.startAnimation(AnimationUtils.loadAnimation(this,R.anim.title_update_anim));
             /*
             *从SharedPreferences中 读取城市的id, 其中101010100为北京城市ID.
              */
@@ -109,6 +162,7 @@ public class MainActivity extends Activity implements View.OnClickListener
             }
         }
     }
+
     /*
     *编写onActivityResult函数, 用于接收返回的数据。
      */
@@ -326,6 +380,7 @@ public class MainActivity extends Activity implements View.OnClickListener
         climateTv. setText( todayWeather. getType( ) ) ;
         windTv. setText( " 风力 : "+todayWeather. getFengli( ) ) ;
         Toast. makeText( MainActivity. this, " 更新成功！ ", Toast. LENGTH_SHORT) . show( ) ;
+
     }
 
 }

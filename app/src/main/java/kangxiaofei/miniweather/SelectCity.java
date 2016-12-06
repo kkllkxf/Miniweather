@@ -55,19 +55,19 @@ public class SelectCity extends Activity implements View.OnClickListener{
         //构建适配器Adapter,将数据与显示数据的布局页面绑定； 将ArrayAdapter构造方法的最后一个参数改成city，系统就会加载List对象的数据
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(SelectCity.this,android.R.layout.simple_list_item_1,city);
         //通过setAdapter()方法把适配器设置给ListView
-        listView.setAdapter(adapter);
+    listView.setAdapter(adapter);
 
-        cityName = (TextView) findViewById(R.id.title_city_name);
-        selectcity = (TextView)findViewById(R.id.title_name);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(SelectCity.this, "你单击了:"+city.get(i), Toast.LENGTH_SHORT).show();
-                SelectedId = cityId.get(i);
-                selectcity.setText("选择城市："+city.get(i));
-            }
-        });
-    }
+    cityName = (TextView) findViewById(R.id.title_city_name);
+    selectcity = (TextView)findViewById(R.id.title_name);
+    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            Toast.makeText(SelectCity.this, "你单击了:"+city.get(i), Toast.LENGTH_SHORT).show();
+            SelectedId = cityId.get(i);
+            selectcity.setText("选择城市："+city.get(i));
+        }
+    });
+}
 
     @Override
     public void onClick(View v)
@@ -75,7 +75,7 @@ public class SelectCity extends Activity implements View.OnClickListener{
         switch(v.getId()){
             case R.id.title_back:
 
-                Intent i = new Intent( ) ;
+                Intent i = new Intent(this,selectcity.getClass()) ;
                 i.putExtra( "cityCode", SelectedId) ;
                 setResult( RESULT_OK, i) ;             //在finish之前， 传递数据
                 finish();
