@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Miniweather</string>
+    <string name="current_city_name">Current Region：</string>
+    <string name="hint_words">City of China（Chinese）</string>
 </resources>

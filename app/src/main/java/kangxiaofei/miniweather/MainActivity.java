@@ -33,6 +33,7 @@ import cn.edu.pku.kangxiaofei.util.NetUtil;
 /**
  * Created by Administrator on 2016/10/11.
  */
+
 public class MainActivity extends Activity implements View.OnClickListener
             {
                 private static final int UPDATE_TODAY_WEATHER = 1;
@@ -48,6 +49,7 @@ public class MainActivity extends Activity implements View.OnClickListener
                 Animation operatingAnim = null;
                 //LinearInterpolator为匀速效果
                 LinearInterpolator lin = null;
+
     private Handler mHandler = new Handler( ) {
         public void handleMessage( android. os. Message msg) {
             switch ( msg. what) {
@@ -138,21 +140,15 @@ public class MainActivity extends Activity implements View.OnClickListener
         }
         if (view.getId() == R.id.title_update_btn)
         {
-            //pbar.setVisibility(View.VISIBLE);
-            //mUpdateBtn.setVisibility(View.INVISIBLE);
-
             //点击更新按钮，实现动画效果
             //mUpdateBtn.startAnimation(AnimationUtils.loadAnimation(this,R.anim.title_update_anim));
 
-            /*
-            *从SharedPreferences中 读取城市的id, 其中101010100为北京城市ID.
-             */
+            //从SharedPreferences中 读取城市的id, 其中101010100为北京城市ID.
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
             String cityCode = sharedPreferences.getString("main_city_code", "101010100");
             Log.d("myWeather",cityCode);
-            /*
-            *if-else 调用检测网络连接状态方法,以检测网络是否连接
-            */
+
+            //if-else 调用检测网络连接状态方法,以检测网络是否连接
             if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE)
             {
                 Log.d("myWeather", "网络OK");
@@ -396,7 +392,5 @@ public class MainActivity extends Activity implements View.OnClickListener
         climateTv. setText( todayWeather. getType( ) ) ;
         windTv. setText( " 风力 : "+todayWeather. getFengli( ) ) ;
         Toast. makeText( MainActivity. this, " 更新成功！ ", Toast. LENGTH_SHORT) . show( ) ;
-
     }
-
 }
