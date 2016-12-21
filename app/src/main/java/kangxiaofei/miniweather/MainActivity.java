@@ -37,7 +37,6 @@ public class MainActivity extends Activity implements View.OnClickListener
             {
                 private static final int UPDATE_TODAY_WEATHER = 1;
                 private ImageView mUpdateBtn;       //在UI线程中,为更新按钮(ImageView)增加单击事件.
-
                 private ImageView mCitySelect;      //为选择城市ImageView添加OnClick事件
 
                 private TextView cityTv,timeTv,humidityTv,weekTv,pmDataTv,pmQualityTv,
@@ -45,6 +44,10 @@ public class MainActivity extends Activity implements View.OnClickListener
                 private ProgressBar pbar;
                 private ImageView weatherImg,pmImg;
 
+                //更新图标旋转
+                Animation operatingAnim = null;
+                //LinearInterpolator为匀速效果
+                LinearInterpolator lin = null;
     private Handler mHandler = new Handler( ) {
         public void handleMessage( android. os. Message msg) {
             switch ( msg. what) {
@@ -72,10 +75,9 @@ public class MainActivity extends Activity implements View.OnClickListener
                 Log.d( "myWeather", " 网络挂了");
                 Toast.makeText( MainActivity.this, " 网络挂了！", Toast.LENGTH_LONG).show( ) ;
             }
-            //点击更新按钮，实现动画效果
+            //点击更新按钮，实现动画效果,具体的动画操作在函数queryWeatherCode（）处.
             mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
         	mUpdateBtn.setOnClickListener(this);
-        	//pbar = (ProgressBar) findViewById(R.id.title_update_progress);
 
             mCitySelect = (ImageView)findViewById(R.id.title_city_manager);
             mCitySelect.setOnClickListener(this);
@@ -140,7 +142,8 @@ public class MainActivity extends Activity implements View.OnClickListener
             //mUpdateBtn.setVisibility(View.INVISIBLE);
 
             //点击更新按钮，实现动画效果
-            mUpdateBtn.startAnimation(AnimationUtils.loadAnimation(this,R.anim.title_update_anim));
+            //mUpdateBtn.startAnimation(AnimationUtils.loadAnimation(this,R.anim.title_update_anim));
+
             /*
             *从SharedPreferences中 读取城市的id, 其中101010100为北京城市ID.
              */
@@ -322,8 +325,21 @@ public class MainActivity extends Activity implements View.OnClickListener
         */
      private void queryWeatherCode( String cityCode)
      {
-            final String address = "http://wthrcdn.etouch.cn/WeatherApi?citykey="+cityCode;
-            Log.d( "myWeather", address) ;
+         final String address = "http://wthrcdn.etouch.cn/WeatherApi?citykey="+cityCode;
+         Log.d( "myWeather", address) ;
+
+         //更新按钮旋转
+         operatingAnim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.title_update_anim);
+         lin = new LinearInterpolator(); //LinearInterpolator为匀速效果
+         operatingAnim.setInterpolator(lin);//设置旋转效果
+         //开始旋转
+         if (operatingAnim != null) {
+             mUpdateBtn.startAnimation(operatingAnim);
+             Log.d("start anim","旋转啦");
+         }
+
+           //使用HttpClient获取网络数据
+          //创建线程
             new Thread( new Runnable( ) {
                 @Override
                 public void run( ) {
