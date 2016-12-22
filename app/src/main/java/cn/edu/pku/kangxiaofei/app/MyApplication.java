@@ -1,5 +1,4 @@
 package cn.edu.pku.kangxiaofei.app;
-
 import android.app.Application;
 import android.os.Environment;
 import android.util.Log;
@@ -23,7 +22,7 @@ public class MyApplication extends Application
 
     private static MyApplication mApplication;   //在MyApplication类中创建geiInstance方法
     private CityDB mCityDB;                      //在Application类中 ，打开数据库
-    private List<City>mCityList;                 //初始化城市信息列表
+    private List<City> mCityList;                 //初始化城市信息列表
 
     @Override
     public void onCreate()
@@ -33,30 +32,30 @@ public class MyApplication extends Application
 
         mApplication = this;
         mCityDB = openCityDB();         //在Application类中 ，打开数据库
-        initCityList( ) ;               //初始化城市信息列表
+        initCityList( );               //初始化城市信息列表
     }
     private void initCityList( )
     {
-        mCityList = new ArrayList<City>( ) ;
+        mCityList = new ArrayList<City>( );
         new Thread( new Runnable( ) {
             @Override
             public void run( )
             {
          // TODO Auto- generated method stub
-                prepareCityList( ) ;
+                prepareCityList( );
             }
-        }) .start( ) ;
+        }) .start( );
     }
     private boolean prepareCityList( )
     {
-    mCityList = mCityDB.getAllCity( ) ;
+    mCityList = mCityDB.getAllCity( ) ;  //getAllCity()获取所有城市信息
     int i=0;
     for ( City city : mCityList) {
         i++;
-        String cityName = city.getCity( ) ;
-        String cityCode = city.getNumber( ) ;
-        Log. d( TAG, cityCode+": "+cityName) ;
-    }Log.d( TAG, "i="+i) ;
+        String cityName = city.getCity( );
+        String cityCode = city.getNumber( );
+        Log. d( TAG, cityCode+": "+cityName);
+    }Log.d( TAG, "i="+i);
     return true;
     }
     public List<City> getCityList( )

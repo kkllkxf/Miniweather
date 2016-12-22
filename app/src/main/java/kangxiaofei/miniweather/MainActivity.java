@@ -134,9 +134,7 @@ public class MainActivity extends Activity implements View.OnClickListener
         if(view.getId()==R.id.title_city_manager)
         {
             Intent i = new Intent(this,SelectCity.class);
-            //startActivity(i);
             startActivityForResult(i,1);  //修改更新按钮的单击事件处理程序
-
         }
         if (view.getId() == R.id.title_update_btn)
         {
@@ -167,7 +165,7 @@ public class MainActivity extends Activity implements View.OnClickListener
      */
     protected void onActivityResult( int requestCode, int resultCode, Intent data) {
         if ( requestCode == 1 && resultCode == RESULT_OK) {
-            String newCityCode= data. getStringExtra( "cityCode") ;
+            String newCityCode= data.getStringExtra( "cityCode") ;
 
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit(); //SharedPreference中写入数据需要使用Editor
@@ -175,7 +173,7 @@ public class MainActivity extends Activity implements View.OnClickListener
             editor.commit();            //点击返回后，使用SharedPreferences保存当前数据，参考 http://www.cnblogs.com/ywtk/p/3795184.html
 
             Log. d( "myWeather", " 选择的城市代码为 "+newCityCode) ;
-            if ( NetUtil. getNetworkState( this) != NetUtil. NETWORN_NONE) {
+            if ( NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
                 Log. d( "myWeather", " 网络OK") ;
                 queryWeatherCode(newCityCode) ;   //此处可以进一步优化，选择在city_select页面选择后刷新还是在返回后刷新,都可以.
             } else {

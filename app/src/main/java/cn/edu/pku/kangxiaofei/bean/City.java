@@ -1,15 +1,22 @@
 package cn.edu.pku.kangxiaofei.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/11/1.
  */
-public class City {
+public class City implements Serializable {
     private String province;
     private String city;
     private String number;
     private String firstPY;
     private String allPY;
     private String allFristPY;
+
+    public City()
+    {
+
+    }
 
     public City( String province, String city, String number, String
             firstPY, String allPY, String allFristPY)     //增加一个构造函数City
