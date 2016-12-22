@@ -84,7 +84,10 @@ public class MainActivity extends Activity implements View.OnClickListener
             mCitySelect = (ImageView)findViewById(R.id.title_city_manager);
             mCitySelect.setOnClickListener(this);
 
-            initView();  //初始化控件
+           //开启后台服务
+            startService(new Intent(getBaseContext(), UpdateService.class));
+           //初始化控件
+            initView();
         }
     public void setType(String weatherType, ImageView weatherImg) {
         if (weatherType.equals("暴雪"))
