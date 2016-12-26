@@ -209,7 +209,7 @@ android:orientation="vertical" >
                 android:singleLine="true"
                 android:text="- 2℃~7℃"
                 android:textColor="@android:color/white"
-                android:textSize="30.0sp" />
+                android:textSize="25.0sp" />
             <!--天气状况-->
             <TextView
                 android:id="@+id/climate"
@@ -219,7 +219,7 @@ android:orientation="vertical" >
                 android:layout_marginLeft="5dip"
                 android:layout_toRightOf="@id/weather_img"
                 android:singleLine="true"
-                android:text=" 多 云转晴"
+                android:text=" 多云转晴"
                 android:textColor="@android:color/white"
                 android:textSize="20.0sp" />
             <!--风力 信息-->
@@ -236,7 +236,22 @@ android:orientation="vertical" >
                 android:textSize="20.0sp" />
         </RelativeLayout>
     </RelativeLayout>
-        <!--六日 天气信息-->
+
+    <!--七日 天气信息-->
+    <RelativeLayout
+        android:id="@+id/future_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10.0dip">
+        <android.support.v4.view.ViewPager
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/viewpager2">
+        </android.support.v4.view.ViewPager>
+    </RelativeLayout>
+
         <!--广 告等信息-->
     </LinearLayout>
 
