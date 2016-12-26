@@ -7,8 +7,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
-            android:textSize="23sp"
+            android:textSize="20sp"
             android:text="15℃~20℃" />
 
         <TextView
@@ -61,8 +61,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
-            android:textSize="23sp"
+            android:textSize="20sp"
             android:text="15℃~20℃" />
 
         <TextView
@@ -115,8 +115,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:orientation="vertical">
 
         <TextView
@@ -144,7 +144,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:layout_gravity="center"
-            android:textSize="23sp"
+            android:textSize="20sp"
             android:text="18℃~21℃" />
 
         <TextView
