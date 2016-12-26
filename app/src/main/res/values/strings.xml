@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Miniweather</string>
+    <string name="app_name">天气预报</string>
     <string name="current_city_name">当前城市:北京</string>
     <string name="hint_words">搜索全国城市</string>
 </resources>

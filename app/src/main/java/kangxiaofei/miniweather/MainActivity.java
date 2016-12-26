@@ -35,7 +35,7 @@ import cn.edu.pku.kangxiaofei.util.NetUtil;
  */
 
 public class MainActivity extends Activity implements View.OnClickListener
-            {
+    {
                 private static final int UPDATE_TODAY_WEATHER = 1;
                 private ImageView mUpdateBtn;       //在UI线程中,为更新按钮(ImageView)增加单击事件.
                 private ImageView mCitySelect;      //为选择城市ImageView添加OnClick事件
@@ -75,7 +75,7 @@ public class MainActivity extends Activity implements View.OnClickListener
             else
             {
                 Log.d( "myWeather", " 网络挂了");
-                Toast.makeText( MainActivity.this, " 网络挂了！", Toast.LENGTH_LONG).show( ) ;
+                Toast.makeText( MainActivity.this, " 网络挂了！", Toast.LENGTH_LONG).show( );
             }
             //点击更新按钮，实现动画效果,具体的动画操作在函数queryWeatherCode（）处.
             mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
